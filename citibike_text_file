@@ -1,0 +1,64 @@
+ELT
+1) Downloaded data from 2019 through 2020 EOY with the idea that comparing the 2019 vs. 2020 might show some
+interesting data given the pandemic's effect in New York adjacent Jersey City in 2020. 
+
+2) Glob Python library was imported and a short program was used to concatenate files to avoid
+repetitive merge/append statements.  Due to file size and the relevance of the time period to
+the overarching question of how citi bikes were accessed througout the pandemic, every
+10th row was appended to the merged file:
+########################################################################################
+import pandas as pd
+import glob
+
+path = r'C:\Users\Joe\Documents\Boot_Camp\Homework\tableau\citi_bike_analytics'
+csv_files = glob.glob(path + '/*.csv')
+df_list = []
+full_df = pd.DataFrame()
+for filename in csv_files:
+    df = pd.read_csv(filename, index_col=None, header=0)
+    full_df.append(df.iloc[::10])
+
+full_df.to_csv('merged_file/merged_pandas.csv', index=False)
+
+########################################################################################
+
+Dashboard 1: Usership Statistics 2020 vs. 2019.
+
+1) Trips by Gender over Time Period
+Number of Trips is a calculated field. Gender was included in a stacked line graph
+to show the similar trends across gender though at different volumes. A clear valley in usership 
+accross genders is shown in March, and the height of 2019 was not re-established in 2020.
+
+2) Percentage Difference from Previous Year Trips
+Percentage difference of trips in 2020 vs. 2019.
+
+3) User Type by Year
+This stacked bar chart shows total usership (again a 10% sample size) by type of customer.
+The data shows a decrease in subscriptions and an increase of non subscribed customers. An assumption
+would be the decrease in commuter patronage due to stay at home orders shifting more to as needed
+usage.
+
+Dashboard 2:
+Maps
+
+This shows both start stations and stop stations with the ability to toggle between 2019 and 2020
+giving the ability to see the overall change in each point.  Since this only includes Jersey City 
+start stations, there are also many stop stations in other areas such as Manhattan. There appear
+to be much fewer stop locations in 2020 due to people perhaps staying in areas close to home during
+the pandemic.
+
+
+Dashboard 3:
+
+Average Trip Duration by age 2019 vs. 2020
+
+This shows the split of trip druation between age groups in 2019 and 2020 although there seems to be 
+an anamoly withthe 80 year old age group in 2020.  Overall the trip duration seemed to increase 
+in 2020.  This is most likely due to the limiting of people packing into crowded subway cars 
+due to the pandemic.
+
+User Type by Age and Year
+
+The number of subscribers in the 25-45 age group was strongest in 2019, and remained so though
+diminishing in 2020.  The 50 year old bin strangely doubled in 2020 for customers.  This is unclear
+why just that age group would seem to skyrocket into the pay as you ride payment method.
